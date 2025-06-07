@@ -1,0 +1,17 @@
+*.asv
+
+cpp/
+cpp_mark/
+test
+.DS_Store
+chabt_relative_motion.m
+chabt_relative_motion2.m
+chabt3.m
+dynamics_roe.m
+mainAbsoluteCoordinates.m
+nonlinearRel.m
+relNonlinearODE.m
+representative_scenarios.m
+Seminar.m
+todo.m
+twoBodyODE.m
