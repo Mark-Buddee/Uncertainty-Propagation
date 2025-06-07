@@ -1,6 +1,7 @@
 *.asv
 
-cpp/
+cpp_aero/
+cpp_mind/
 cpp_mark/
 test
 .DS_Store
