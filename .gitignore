@@ -5,9 +5,9 @@ cpp_mind/
 cpp_mark/
 test
 .DS_Store
-chabt_relative_motion.m
-chabt_relative_motion2.m
-chabt3.m
+c_relative_motion.m
+c_relative_motion2.m
+c.m
 dynamics_roe.m
 mainAbsoluteCoordinates.m
 nonlinearRel.m
