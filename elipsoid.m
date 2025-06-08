@@ -75,8 +75,8 @@ Torb = 2*pi*sqrt(a0^3/param.mu); % Orbital period
 param.t0 = 0; 
 % param.tf = Torb;
 % stm_time = 5/param.TU; % 5s for the STM Generation
-% stm_time = Torb; % 5s for the STM Generation
-stm_time = 60/param.TU; % 5s for the STM Generation
+stm_time = Torb; % 5s for the STM Generation
+% stm_time = 60/param.TU; % 5s for the STM Generation
 param.tf = stm_time;
 
 paramArray = [param.mu, param.J2, param.Re, param.tf];
@@ -99,14 +99,14 @@ STM0Droe = convertSTM(STM0Dcart, x0C, fx0C, x0D, fx0D, param.mu, 'roe');
 
 %% Perturbed state propagation 
 
-nPoints = 500; % number of pertubed states we are looking at. 
+nPoints = 750; % number of pertubed states we are looking at. 
 
 % The covariance of the pertubation introduced in cartesian coordinates. It
 % is 1 km and 1 m/s here. 
 r_var = 1e3/param.LU;
 v_var = 1/param.LU*param.TU;
 
-skips_per_fig = 3; % 5 orbits 10 20 and 50
+skips_per_fig = 1; % 5 orbits 10 20 and 50
 for i = 1: nPoints
 
     r_perturb = r_var * randn(1,3);  % position noise
@@ -223,15 +223,32 @@ end
 % Plot x-y position covariance ellipses for each interpolation
 colors = {'b', 'b', 'b', 'b'};
 
+for i = 1:4
+    figure;
+    hold on;
+    view(3); % Make axes 3D
+
+    Cxyz = PsCart{i}(1:3,1:3);  % extract x-y-z covariance
+    mu_xyz = musCart{i}(1:3)';
+    plot_gaussian_ellipsoid_3d([0;0;0], Cxyz, 1, colors{i});
+    plot3(dCartXXnlc(i,:,1)-mu_xyz(1), dCartXXnlc(i,:,2)-mu_xyz(2), dCartXXnlc(i,:,3)-mu_xyz(3), 'r.');
+
+    plot_latex([], 'X [m]', 'Y [m]', 'Z [m]', {}, {});
+    fig=gcf;
+    fig.Position = [200, 200, 400,275];
+%     axis equal;
+    grid on;
+    title('', 'Interpreter', 'latex');
+end
 % for i = 1:4
 %     figure;
 %     hold on;
 %     view(3); % Make axes 3D
 % 
-%     Cxyz = PsCart{i}(1:3,1:3);  % extract x-y-z covariance
-%     mu_xyz = musCart{i}(1:3)';
+%     Cxyz = PsCart{i}(4:6,4:6);  % extract x-y-z covariance
+%     mu_xyz = musCart{i}(4:6)';
 %     plot_gaussian_ellipsoid_3d([0;0;0], Cxyz, 1, colors{i});
-%     plot3(dCartXXnlc(i,:,1)-mu_xyz(1), dCartXXnlc(i,:,2)-mu_xyz(2), dCartXXnlc(i,:,3)-mu_xyz(3), 'r.');
+%     plot3(dCartXXnlc(i,:,4)-mu_xyz(1), dCartXXnlc(i,:,5)-mu_xyz(2), dCartXXnlc(i,:,6)-mu_xyz(3), 'r.');
 % 
 %     plot_latex([], 'X [m]', 'Y [m]', 'Z [m]', {}, {});
 %     fig=gcf;
@@ -239,32 +256,33 @@ colors = {'b', 'b', 'b', 'b'};
 %     axis equal; grid on;
 %     title('', 'Interpreter', 'latex');
 % end
+
 for i = 1:4
     figure;
     hold on;
     view(3); % Make axes 3D
 
-    Cxyz = PsCart{i}(4:6,4:6);  % extract x-y-z covariance
-    mu_xyz = musCart{i}(4:6)';
+    Cxyz = PsRel{i}(1:3,1:3);  % extract x-y-z covariance
+    mu_xyz = musRel{i}(1:3)';
     plot_gaussian_ellipsoid_3d([0;0;0], Cxyz, 1, colors{i});
-    plot3(dCartXXnlc(i,:,4)-mu_xyz(1), dCartXXnlc(i,:,5)-mu_xyz(2), dCartXXnlc(i,:,6)-mu_xyz(3), 'r.');
+    plot3(drelXXnlc(i,:,1)-mu_xyz(1), drelXXnlc(i,:,2)-mu_xyz(2), drelXXnlc(i,:,3)-mu_xyz(3), 'r.');
 
-    plot_latex([], 'X [m]', 'Y [m]', 'Z [m]', {}, {});
+    plot_latex([], 'Radial [m]', 'Along-track [m]', 'Cross-track [m]', {}, {});
     fig=gcf;
     fig.Position = [200, 200, 400,275];
-    axis equal; grid on;
+%     axis equal;
+    grid on;
     title('', 'Interpreter', 'latex');
 end
-
 % for i = 1:4
 %     figure;
 %     hold on;
 %     view(3); % Make axes 3D
 % 
-%     Cxyz = PsRel{i}(1:3,1:3);  % extract x-y-z covariance
-%     mu_xyz = musRel{i}(1:3)';
+%     Cxyz = PsRel{i}(4:6,4:6);  % extract x-y-z covariance
+%     mu_xyz = musRel{i}(4:6)';
 %     plot_gaussian_ellipsoid_3d([0;0;0], Cxyz, 1, colors{i});
-%     plot3(drelXXnlc(i,:,1)-mu_xyz(1), drelXXnlc(i,:,2)-mu_xyz(2), drelXXnlc(i,:,3)-mu_xyz(3), 'r.');
+%     plot3(drelXXnlc(i,:,4)-mu_xyz(1), drelXXnlc(i,:,5)-mu_xyz(2), drelXXnlc(i,:,6)-mu_xyz(3), 'r.');
 % 
 %     plot_latex([], 'Radial [m]', 'Along-track [m]', 'Cross-track [m]', {}, {});
 %     fig=gcf;
@@ -272,23 +290,24 @@ end
 %     axis equal; grid on;
 %     title('', 'Interpreter', 'latex');
 % end
+
 for i = 1:4
     figure;
     hold on;
     view(3); % Make axes 3D
 
-    Cxyz = PsRel{i}(4:6,4:6);  % extract x-y-z covariance
-    mu_xyz = musRel{i}(4:6)';
+    Cxyz = PsRoe{i}(1:3,1:3);  % extract x-y-z covariance
+    mu_xyz = musRoe{i}(1:3)';
     plot_gaussian_ellipsoid_3d([0;0;0], Cxyz, 1, colors{i});
-    plot3(drelXXnlc(i,:,4)-mu_xyz(1), drelXXnlc(i,:,5)-mu_xyz(2), drelXXnlc(i,:,6)-mu_xyz(3), 'r.');
+    plot3(droeXXnlc(i,:,1)-mu_xyz(1), droeXXnlc(i,:,2)-mu_xyz(2), droeXXnlc(i,:,3)-mu_xyz(3), 'r.');
 
-    plot_latex([], 'Radial [m]', 'Along-track [m]', 'Cross-track [m]', {}, {});
+    plot_latex([], '\delta a [Re]', '\delta \lambda [rad]', '\delta e_x', {}, {});
     fig=gcf;
     fig.Position = [200, 200, 400,275];
-    axis equal; grid on;
+%     axis equal;
+    grid on;
     title('', 'Interpreter', 'latex');
 end
-
 % for i = 1:4
 %     figure;
 %     hold on;
@@ -305,38 +324,22 @@ end
 %     axis equal; grid on;
 %     title('', 'Interpreter', 'latex');
 % end
-for i = 1:4
-    figure;
-    hold on;
-    view(3); % Make axes 3D
-
-    Cxyz = PsRoe{i}(1:3,1:3);  % extract x-y-z covariance
-    mu_xyz = musRoe{i}(1:3)';
-    plot_gaussian_ellipsoid_3d([0;0;0], Cxyz, 1, colors{i});
-    plot3(droeXXnlc(i,:,1)-mu_xyz(1), droeXXnlc(i,:,2)-mu_xyz(2), droeXXnlc(i,:,3)-mu_xyz(3), 'r.');
-
-    plot_latex([], '\delta a [Re]', '\delta \lambda [rad]', '\delta e_x', {}, {});
-    fig=gcf;
-    fig.Position = [200, 200, 400,275];
-    axis equal; grid on;
-    title('', 'Interpreter', 'latex');
-end
-for i = 1:4
-    figure;
-    hold on;
-    view(3); % Make axes 3D
-
-    Cxyz = PsRoe{i}(4:6,4:6);  % extract x-y-z covariance
-    mu_xyz = musRoe{i}(4:6)';
-    plot_gaussian_ellipsoid_3d([0;0;0], Cxyz, 1, colors{i});
-    plot3(droeXXnlc(i,:,4)-mu_xyz(1), droeXXnlc(i,:,5)-mu_xyz(2), droeXXnlc(i,:,6)-mu_xyz(3), 'r.');
-
-    plot_latex([], '\delta a [Re]', '\delta \lambda [rad]', '\delta e_x', {}, {});
-    fig=gcf;
-    fig.Position = [200, 200, 400,275];
-    axis equal; grid on;
-    title('', 'Interpreter', 'latex');
-end
+% for i = 1:4
+%     figure;
+%     hold on;
+%     view(3); % Make axes 3D
+% 
+%     Cxyz = PsRoe{i}(4:6,4:6);  % extract x-y-z covariance
+%     mu_xyz = musRoe{i}(4:6)';
+%     plot_gaussian_ellipsoid_3d([0;0;0], Cxyz, 1, colors{i});
+%     plot3(droeXXnlc(i,:,4)-mu_xyz(1), droeXXnlc(i,:,5)-mu_xyz(2), droeXXnlc(i,:,6)-mu_xyz(3), 'r.');
+% 
+%     plot_latex([], '\delta a [Re]', '\delta \lambda [rad]', '\delta e_x', {}, {});
+%     fig=gcf;
+%     fig.Position = [200, 200, 400,275];
+%     axis equal; grid on;
+%     title('', 'Interpreter', 'latex');
+% end
 
 % figure;
 % titles = {'Initial', '1/3 Orbit', '2/3 Orbit', '1 Orbit'};
@@ -471,5 +474,6 @@ function plot_gaussian_ellipsoid_3d(mu, C, sdwidth, color)
 
     % Annotate
     plot_latex([], '$x$', '$y$', '$z$', '3D Gaussian Ellipsoid', {});
-    axis equal; grid on;
+%     axis equal;
+    grid on;
 end

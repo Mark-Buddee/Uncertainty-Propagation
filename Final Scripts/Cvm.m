@@ -41,13 +41,13 @@ rho = 20 / param.LU; % m
 omega = sqrt(param.mu / kep_chief(1)^3);
 v_rel = omega * rho;
 
-dr = [rho; 0; 0]; %% Parking orbit
+% dr = [rho; 0; 0]; %% Parking orbit
 % dr = [rho; -10e3/param.LU; 0]; %% Initial approach
-% dr = [-1.4307e3/param.LU; -1.4022e5/param.LU; 0];
+dr = [-1.4307e3/param.LU; -1.4022e5/param.LU; 0];
 
-dv = [0; -v_rel; v_rel]; %% Parking orbit
+% dv = [0; -v_rel; v_rel]; %% Parking orbit
 % dv = [0; -1.2*v_rel; v_rel]; %% Initial approach
-% dv = [-0.0657/param.VU; 3.8066/param.VU; 0];
+dv = [-0.0657/param.VU; 3.8066/param.VU; 0];
 
 % Compute RTN frame from chief state
 rhat = rrC / norm(rrC);

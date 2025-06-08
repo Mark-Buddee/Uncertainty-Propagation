@@ -1,43 +1,34 @@
-% for i = 1: nPoints  
-%     val(i, :)
-%     valRel(i, :)
-%     valRoe(i, :)
-% end
+% Example data
+val = randn(1000,6);
+valRel = randn(1000,6);
+valRoe = randn(1000,6);
 
-data = randn(1000,1);  % Normally distributed example
-
+% Plot Cartesian
 figure;
 for i = 1:6
-    subplot(2, 3, i);              % 2 rows × 3 columns of subplots
-    qqplot(val(:, i));              % Q-Q plot for each axis
-    title(sprintf('Q-Q Plot: Dim %d', i));
-    xlabel('Theoretical Quantiles');
-    ylabel('Sample Quantiles');
-    grid on;
+    subplot(2, 3, i);
+    qqplot(val(:, i));
+    plot_latex([], 'Theoretical Quantiles', 'Sample Quantiles', '', ...
+               sprintf('Q-Q Plot: Dim %d', i), '');
 end
+% sgtitle('Cartesian', 'FontWeight', 'bold');
 
-sgtitle('Cartesian');
-
+% Plot Hillframe
 figure;
 for i = 1:6
-    subplot(2, 3, i);              % 2 rows × 3 columns of subplots
-    qqplot(valRel(:, i));              % Q-Q plot for each axis
-    title(sprintf('Q-Q Plot: Dim %d', i));
-    xlabel('Theoretical Quantiles');
-    ylabel('Sample Quantiles');
-    grid on;
+    subplot(2, 3, i);
+    qqplot(valRel(:, i));
+    plot_latex([], 'Theoretical Quantiles', 'Sample Quantiles', '', ...
+               sprintf('Q-Q Plot: Dim %d', i), '');
 end
-
-sgtitle('Hillframe');
-
+% sgtitle('Hillframe', 'FontWeight', 'bold');
+% 
+% Plot ROE
 figure;
 for i = 1:6
-    subplot(2, 3, i);              % 2 rows × 3 columns of subplots
-    qqplot(valRoe(:, i));              % Q-Q plot for each axis
-    title(sprintf('Q-Q Plot: Dim %d', i));
-    xlabel('Theoretical Quantiles');
-    ylabel('Sample Quantiles');
-    grid on;
+    subplot(2, 3, i);
+    qqplot(valRoe(:, i));
+    plot_latex([], 'Theoretical Quantiles', 'Sample Quantiles', '', ...
+               sprintf('Q-Q Plot: Dim %d', i), '');
 end
-
-sgtitle('ROE');
+% sgtitle('ROE', 'FontWeight', 'bold');

@@ -6,6 +6,7 @@ daceFolder = 'C:\Program Files (x86)\DACE\lib'; % dace.dll
 setenv('PATH', [getenv('PATH') ';' dllFolder ';' daceFolder]);
 
 addpath('C:\Users\mbudd\Documents\thesis\UncertaintyProp-compiled');
+addpath('C:\Users\mbudd\Documents\thesis\Uncertainty-Propagation');
 
 clear; clc; close all;
 
