@@ -1,3 +1,5 @@
+% Mostly supervisor provided
+
 %Coordinate conversions
 classdef CoordConv
     methods (Static)
@@ -560,6 +562,7 @@ classdef CoordConv
             tau = -(E - e.*sin(E))./sqrt(mus.*a.^-3);
             
 %               True_an = 2 * atan2(sqrt(1 + e) .* sin(E/2), sqrt(1 - e) .* cos(E/2));
+%             Adjusted for desired output domain -pi:pi
             True_an = 2 * atan(sqrt((1 + e)/ (1 - e)) .* tan(E/2) );
             
                 
